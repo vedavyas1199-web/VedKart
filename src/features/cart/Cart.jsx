@@ -1,24 +1,66 @@
-import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart, clearCart } from "./cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  increaseQty,
+  decreaseQty,
+  removeFromCart,
+} from "./cartSlice";
+
 const Cart = () => {
-    const cartItems = useSelector((state) => state.cart.items);
-    const dispatch = useDispatch();
-    if (cartItems.length === 0) {
-        return <div>Your cart is empty</div>;
-    }
-      return (
-    <div>
+  const dispatch = useDispatch();
+  const items = useSelector((state) => state.cart.items);
+
+  const total = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  if (items.length === 0) {
+    return <h3>Your cart is empty 🛒</h3>;
+  }
+
+  return (
+    <div style={{ padding: "16px" }}>
       <h2>Your Cart</h2>
-      {cartItems.map((item) => (
-        <div key={item.id} style={{ borderBottom: "1px solid #ddd", padding: "10px" }}>
-          <h4>{item.title}</h4>
-          <p>₹ {item.price}</p>
-          <p>Qty: {item.quantity}</p>
-          <button onClick={() => dispatch(removeFromCart(item.id))}>
-            Remove
-          </button>
+
+      {items.map((item) => (
+        <div
+          key={item.id}
+          style={{
+            display: "flex",
+            gap: "16px",
+            borderBottom: "1px solid #ccc",
+            padding: "10px 0",
+          }}
+        >
+          <img src={item.image} alt={item.title} width="80" />
+
+          <div style={{ flex: 1 }}>
+            <h4>{item.title}</h4>
+            <p>₹ {item.price}</p>
+
+            <div>
+              <button onClick={() => dispatch(decreaseQty(item.id))}>
+                ➖
+              </button>
+              <span style={{ margin: "0 10px" }}>
+                {item.quantity}
+              </span>
+              <button onClick={() => dispatch(increaseQty(item.id))}>
+                ➕
+              </button>
+            </div>
+
+            <button
+              style={{ marginTop: "8px" }}
+              onClick={() => dispatch(removeFromCart(item.id))}
+            >
+              Remove
+            </button>
+          </div>
         </div>
       ))}
+
+      <h3>Total: ₹ {total.toFixed(2)}</h3>
     </div>
   );
 };

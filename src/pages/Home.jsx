@@ -1,9 +1,12 @@
+import ProductList from "../features/products/ProductList";
+
 const Home = () => {
-    return (
-        <div>
-            <h1>Welcome to the Home Page</h1>
-            <p>This is the home page of our e-commerce application.</p>
-        </div>
-    );
-}   
+  return (
+    <div style={{ padding: "16px" }}>
+      <h2 style={{ marginBottom: "16px" }}>All Products</h2>
+      <ProductList />
+    </div>
+  );
+};
+
 export default Home;
