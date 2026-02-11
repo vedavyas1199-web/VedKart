@@ -4,6 +4,8 @@ import {
   decreaseQty,
   removeFromCart,
 } from "./cartSlice";
+import { Link } from "react-router-dom";
+
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -61,6 +63,9 @@ const Cart = () => {
       ))}
 
       <h3>Total: ₹ {total.toFixed(2)}</h3>
+      <Link to="/checkout">
+  <button style={{ marginTop: "20px" }}>Proceed to Payment</button>
+</Link>
     </div>
   );
 };
